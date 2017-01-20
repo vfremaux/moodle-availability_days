@@ -1,0 +1,11 @@
+{
+  "moodle-availability_days-form": {
+    "requires": [
+        "base",
+        "node",
+        "event",
+        "io",
+        "moodle-core_availability-form"
+    ]
+  }
+}
