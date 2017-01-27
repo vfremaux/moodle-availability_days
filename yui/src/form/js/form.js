@@ -1,4 +1,4 @@
-/**
+/*
  * JavaScript for form editing days conditions.
  *
  * @module moodle-availability_days-form
@@ -7,13 +7,13 @@
 
 M.availability_days = M.availability_days || {};
 
-/**
+/*
  * @class M.availability_days.form
  * @extends M.core_availability.plugin
  */
 M.availability_days.form = Y.Object(M.core_availability.plugin);
 
-/**
+/*
  * Groupings available for selection (alphabetical order).
  *
  * @property days
@@ -21,7 +21,7 @@ M.availability_days.form = Y.Object(M.core_availability.plugin);
  */
 M.availability_days.form.days = null;
 
-/**
+/*
  * Initialises this plugin.
  *
  * @method initInner
