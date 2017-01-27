@@ -44,6 +44,11 @@ M.availability_days.form.getNode = function(json) {
             '<input type="text" size="4" name="field" value="'+json.d+'"></label></span>';
     var node = Y.Node.create('<span>' + html + '</span>');
 
+    // Set initial values if specified.
+    if (json.d !== undefined) {
+        node.one('input[name=field]').set('value', json.d);
+    }
+
     // Add event handlers (first time only).
     if (!M.availability_days.form.addedEvents) {
         M.availability_days.form.addedEvents = true;
