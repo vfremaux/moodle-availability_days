@@ -12,8 +12,6 @@ php:
 
 env:
  matrix:
-  - DB=mysqli MOODLE_BRANCH=master
-  - DB=pgsql MOODLE_BRANCH=master
   - DB=mysqli MOODLE_BRANCH=MOODLE_31_STABLE
   - DB=pgsql MOODLE_BRANCH=MOODLE_31_STABLE
 
@@ -24,6 +22,10 @@ before_install:
   - composer selfupdate
   - composer create-project -n --no-dev moodlerooms/moodle-plugin-ci ci ^1
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+
+install:
+
+  - moodle-plugin-ci install
 
 script:
   - moodle-plugin-ci phplint
