@@ -69,7 +69,7 @@ class condition extends \core_availability\condition {
 
         // Check condition.
         $now = self::get_time();
-        $allow = $now >= $this->daysfromstart * DAYSECS + $COURSE->startdate;
+        $allow = $now >= ($this->daysfromstart * DAYSECS) + $COURSE->startdate;
 
         if ($not) {
             $allow = !$allow;
@@ -128,8 +128,8 @@ class condition extends \core_availability\condition {
     protected function show_days($days, $dateonly = false) {
         global $COURSE;
 
-        $time = $COURSE->startdate + $this->daysfromstart * DAYSECS;
-        return '+'.$this->daysfromstart.' ('.userdate($time, get_string($dateonly ? 'strftimedate' : 'strftimedatetime', 'langconfig')).')';
+        $time = $COURSE->startdate + ($days * DAYSECS);
+        return '+'.$days.' ('.userdate($time, get_string($dateonly ? 'strftimedate' : 'strftimedatetime', 'langconfig')).')';
     }
 
     public function update_after_restore($restoreid, $courseid, \base_logger $logger, $name) {
