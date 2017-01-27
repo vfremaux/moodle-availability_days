@@ -3,6 +3,8 @@
  *
  * @module moodle-availability_days-form
  */
+// jshint unused:false, undef:false
+
 M.availability_days = M.availability_days || {};
 
 /**
@@ -38,8 +40,9 @@ M.availability_days.form.getNode = function(json) {
         json.d = '';
     }
 
-    var html = '<span class="availability-group"><label>' + strings.conditiontitle + ' ' +
-            '<input type="text" size="4" name="field" value="'+json.d+'"></label></span>';
+    var html = '<span class="availability-group"><label>' + strings.conditiontitle;
+    html += ' <input type="text" size="4" name="field" value="' + json.d + '"></label></span>';
+
     var node = Y.Node.create('<span>' + html + '</span>');
 
     // Set initial values if specified.
@@ -67,4 +70,3 @@ M.availability_days.form.fillValue = function(value, node) {
     // Set field.
     value.d = node.one('input[name=field]').get('value');
 };
-
