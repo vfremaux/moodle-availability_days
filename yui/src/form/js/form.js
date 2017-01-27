@@ -33,9 +33,19 @@ M.availability_days.form.initInner = function(daysfromstart) {
 M.availability_days.form.getNode = function(json) {
     // Create HTML structure.
     var strings = M.str.availability_days;
+
+    if (json.d === undefined) {
+        json.d = '';
+    }
+
     var html = '<span class="availability-group"><label>' + strings.conditiontitle + ' ' +
             '<input type="text" size="4" name="field" value="'+json.d+'"></label></span>';
     var node = Y.Node.create('<span>' + html + '</span>');
+
+    // Set initial values if specified.
+    if (json.d !== undefined) {
+        node.one('input[name=field]').set('value', json.d);
+    }
 
     // Add event handlers (first time only).
     if (!M.availability_days.form.addedEvents) {
@@ -47,10 +57,7 @@ M.availability_days.form.getNode = function(json) {
         var root = Y.one('#fitem_id_availabilityconditionsjson');
         root.delegate('change', function() {
              updateForm(this);
-        }, '.availability_days input');
-        root.delegate('change', function() {
-             updateForm(this);
-        }, '.availability_days input[name=value]');
+        }, '.availability_days input[name=field]');
     }
 
     return node;
@@ -58,8 +65,6 @@ M.availability_days.form.getNode = function(json) {
 
 M.availability_days.form.fillValue = function(value, node) {
     // Set field.
-    var field = node.one('input[name=field]').get('value');
-    if (field.substr(0, 3) === 'd_') {
-        value.d = field.substr(3);
-    }
+    value.d = node.one('input[name=field]').get('value');
 };
+
