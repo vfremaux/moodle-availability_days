@@ -65,17 +65,55 @@ class condition extends \core_availability\condition {
     }
 
     public function is_available_for_all($not = false) {
-        global $COURSE;
+
+        $referencedate = $this->get_reference_date();
 
         // Check condition.
         $now = self::get_time();
-        $allow = $now >= ($this->daysfromstart * DAYSECS) + $COURSE->startdate;
+        $allow = $now >= ($this->daysfromstart * DAYSECS) + $referencedate;
 
         if ($not) {
             $allow = !$allow;
         }
 
         return $allow;
+    }
+
+    protected function get_reference_date() {
+        global $COURSE, $USER, $DB;
+
+        $config = get_config('availability_days');
+
+        if (@$config->referencedate == 0) {
+            // Calculate from course start date.
+            $referencedate = $COURSE->startdate;
+        } else {
+            // Calulate from lowest active enrol date of the user.
+            $sql = '
+                SELECT
+                    ue.userid,
+                    MIN(timestart) as minenroltime
+                FROM
+                    {user_enrolments} ue,
+                    {enrol} e
+                WHERE
+                    ue.enrolid = e.id AND
+                    ue.status = 0 AND
+                    e.status = 0 AND
+                    e.courseid = ? AND
+                    ue.userid = ?
+                GROUP BY
+                    ue.userid
+            ';
+            if ($lowest = $DB->get_record_sql($sql, array($COURSE->id, $USER->id))) {
+                $referencedate = $lowest->minenroltime;
+            } else {
+                // This should not happen but some role assigned users NON enrolled might fall into that case.
+                $referencedate = $COURSE->startdate;
+            }
+        }
+
+        return $referencedate;
     }
 
     public function get_description($full, $not, \core_availability\info $info) {
@@ -97,8 +135,9 @@ class condition extends \core_availability\condition {
     protected function get_either_description($not, $standalone) {
 
         $satag = $standalone ? 'short_' : 'full_';
-        return get_string($satag . 'days', 'availability_days',
+        $desc = get_string($satag . 'days', 'availability_days',
                 self::show_days($this->daysfromstart));
+        return $desc;
     }
 
     protected function get_debug_string() {
@@ -128,7 +167,7 @@ class condition extends \core_availability\condition {
     protected function show_days($days, $dateonly = false) {
         global $COURSE;
 
-        $time = $COURSE->startdate + ($days * DAYSECS);
+        $time = $this->get_reference_date() + ($days * DAYSECS);
         return '+'.$days.' ('.userdate($time, get_string($dateonly ? 'strftimedate' : 'strftimedatetime', 'langconfig')).')';
     }
 
