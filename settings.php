@@ -15,20 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version info.
+ * Flatfile enrolments plugin settings and presets.
  *
- * @package availability_days
- * @copyright 2016 Valery Fremaux (valery.fremaux@gmail.com)
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    tool_sync
+ * @copyright  2010 Valery Feemaux
+ * @author     Valery Fremaux - based on code by Petr Skoda and others
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016060100;
-$plugin->requires = 2014050800;
-$plugin->component = 'availability_days';
-$plugin->release = '2.7.0 (Build 2016060100)';
-$plugin->maturity = MATURITY_RC;
+if ($ADMIN->fulltree) {
 
-// Non moodle attributes.
-$plugin->codeincrement = '2.7.0001';
+    $options = array(0 => get_string('coursestartdate', 'availability_days'),
+                     1 => get_string('userenroldate', 'availability_days'));
+
+    $key = 'availability_days/referencedate';
+    $label = get_string('configreferencedate', 'availability_days');
+    $desc = get_string('configreferencedate_desc', 'availability_days');
+    $settings->add(new admin_setting_configselect($key, $label, $desc, 0, $options));
+}
+
