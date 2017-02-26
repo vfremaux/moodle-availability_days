@@ -31,5 +31,5 @@ $string['pluginname'] = 'Restriction sur le jour à partir du début';
 $string['full_days'] = 'Disponible à partir du jour <strong>{$a}</strong> à compter du début du cours';
 $string['short_days'] = 'Disponible à jour <strong>{$a}</strong>';
 $string['title'] = 'Jours';
-$string['coursestartdate'] = 'A compter du début du cours';
-$string['userenroldate'] = 'A compter de la date d\'inscription';
+$string['coursestartdate'] = 'Date de début du cours';
+$string['userenroldate'] = 'Date d\'inscription';
