@@ -65,8 +65,8 @@ class condition extends \core_availability\condition {
     /**
      * Checks the target is available
      * @param bool $not
-     * @param object $info
-     * @param int $grapthelot
+     * @param \core_availability\info $info
+     * @param bool $grabthelot
      * @param int $userid
      * @return boolean
      */
@@ -77,7 +77,7 @@ class condition extends \core_availability\condition {
     /**
      * Checks the target is globally available
      * @param bool $not
-     * return boolean
+     * @return boolean
      */
     public function is_available_for_all($not = false) {
 
@@ -96,7 +96,7 @@ class condition extends \core_availability\condition {
 
     /**
      * Get the reference date to calculate shift from
-     * return integer date
+     * @return integer date
      */
     protected function get_reference_date() {
         global $COURSE, $USER, $DB;
@@ -139,8 +139,8 @@ class condition extends \core_availability\condition {
      * Gets a condition description for printing
      * @param bool $full
      * @param bool $not
-     * @param object $info
-     * return boolean
+     * @param \core_availability\info $info
+     * @return boolean
      */
     public function get_description($full, $not, \core_availability\info $info) {
         return $this->get_either_description($not, false);
@@ -150,8 +150,8 @@ class condition extends \core_availability\condition {
      * Gets a condition description for printing
      * @param bool $full
      * @param bool $not
-     * @param object $info
-     * return boolean
+     * @param \core_availability\info $info
+     * @return string
      */
     public function get_standalone_description($full, $not, \core_availability\info $info) {
         return $this->get_either_description($not, true);
@@ -163,6 +163,7 @@ class condition extends \core_availability\condition {
      *
      * @param bool $not True if NOT is in force
      * @param bool $standalone True to use standalone lang strings
+     * @return string
      */
     protected function get_either_description($not, $standalone) {
 
@@ -173,7 +174,7 @@ class condition extends \core_availability\condition {
     }
 
     /**
-     *
+     * @return int
      */
     protected function get_debug_string() {
         return $this->daysfromstart;
@@ -211,8 +212,9 @@ class condition extends \core_availability\condition {
      *
      * @param int $restoreid
      * @param int $courseid
-     * @param object $logger
+     * @param \base_logger $logger
      * @param string $name
+     * @return boolean
      */
     public function update_after_restore($restoreid, $courseid, \base_logger $logger, $name) {
         return true;
