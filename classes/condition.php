@@ -64,11 +64,11 @@ class condition extends \core_availability\condition {
 
     /**
      * Checks the target is available
-     * @param bool                    $not
+     * @param bool $not
      * @param \core_availability\info $info
-     * @param bool                    $grabthelot
-     * @param int                     $userid
-     * @return bool
+     * @param bool $grabthelot
+     * @param int $userid
+     * @return boolean
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
         return $this->is_available_for_all($not);
@@ -137,8 +137,8 @@ class condition extends \core_availability\condition {
 
     /**
      * Gets a condition description for printing
-     * @param bool                    $full
-     * @param bool                    $not
+     * @param bool $full
+     * @param bool $not
      * @param \core_availability\info $info
      * @return boolean
      */
@@ -148,8 +148,8 @@ class condition extends \core_availability\condition {
 
     /**
      * Gets a condition description for printing
-     * @param bool                    $full
-     * @param bool                    $not
+     * @param bool $full
+     * @param bool $not
      * @param \core_availability\info $info
      * @return string
      */
@@ -163,7 +163,7 @@ class condition extends \core_availability\condition {
      *
      * @param bool $not True if NOT is in force
      * @param bool $standalone True to use standalone lang strings
-     * @return string     
+     * @return string
      */
     protected function get_either_description($not, $standalone) {
 
@@ -210,10 +210,10 @@ class condition extends \core_availability\condition {
     /**
      * What needs to be done after course restore.
      *
-     * @param int          $restoreid
-     * @param int          $courseid
+     * @param int $restoreid
+     * @param int $courseid
      * @param \base_logger $logger
-     * @param string       $name
+     * @param string $name
      * @return bool
      */
     public function update_after_restore($restoreid, $courseid, \base_logger $logger, $name) {
