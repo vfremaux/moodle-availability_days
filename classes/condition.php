@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Date condition.
+ * Days condition.
  *
- * @package availability_days
- * @copyright 2014 Valery Fremaux
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     availability_days
+ * @author      Valery Fremaux (valery.fremaux@gmail.com)
+ * @copyright   2016 Valery Fremaux (http://www.mylearingfactory.com)
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace availability_days;
@@ -51,25 +52,40 @@ class condition extends \core_availability\condition {
             $this->daysfromstart = $structure->d;
         } else {
             $this->daysfromstart = 10;
-            // throw new \coding_exception('Missing or invalid ->d for days condition');
         }
     }
 
+    /**
+     * Saves the condition attributes.
+     */
     public function save() {
-        return (object)array('type' => 'days',
-                'd' => $this->daysfromstart);
+        return (object)array('type' => 'days', 'd' => $this->daysfromstart);
     }
 
+    /**
+     * Checks the target is available
+     * @param bool $not
+     * @param \core_availability\info $info
+     * @param bool $grabthelot
+     * @param int $userid
+     * @return boolean
+     */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
         return $this->is_available_for_all($not);
     }
 
+    /**
+     * Checks the target is globally available
+     * @param bool $not
+     * @return boolean
+     */
     public function is_available_for_all($not = false) {
-        global $COURSE;
+
+        $referencedate = $this->get_reference_date();
 
         // Check condition.
         $now = self::get_time();
-        $allow = $now >= ($this->daysfromstart * DAYSECS) + $COURSE->startdate;
+        $allow = $now >= ($this->daysfromstart * DAYSECS) + $referencedate;
 
         if ($not) {
             $allow = !$allow;
@@ -78,12 +94,66 @@ class condition extends \core_availability\condition {
         return $allow;
     }
 
+    /**
+     * Get the reference date to calculate shift from
+     * @return integer date
+     */
+    protected function get_reference_date() {
+        global $COURSE, $USER, $DB;
+
+        $config = get_config('availability_days');
+
+        if (@$config->referencedate == 0) {
+            // Calculate from course start date.
+            $referencedate = $COURSE->startdate;
+        } else {
+            // Calculate from lowest active enrol date of the user.
+            $sql = '
+                SELECT
+                    ue.userid,
+                    MIN(timestart) as minenroltime
+                FROM
+                    {user_enrolments} ue,
+                    {enrol} e
+                WHERE
+                    ue.enrolid = e.id AND
+                    ue.status = 0 AND
+                    e.status = 0 AND
+                    e.courseid = ? AND
+                    ue.userid = ?
+                GROUP BY
+                    ue.userid
+            ';
+            if ($lowest = $DB->get_record_sql($sql, array($COURSE->id, $USER->id))) {
+                $referencedate = $lowest->minenroltime;
+            } else {
+                // This should not happen but some role assigned users NON enrolled might fall into that case.
+                $referencedate = $COURSE->startdate;
+            }
+        }
+
+        return $referencedate;
+    }
+
+    /**
+     * Gets a condition description for printing
+     * @param bool $full
+     * @param bool $not
+     * @param \core_availability\info $info
+     * @return boolean
+     */
     public function get_description($full, $not, \core_availability\info $info) {
         return $this->get_either_description($not, false);
     }
 
-    public function get_standalone_description(
-            $full, $not, \core_availability\info $info) {
+    /**
+     * Gets a condition description for printing
+     * @param bool $full
+     * @param bool $not
+     * @param \core_availability\info $info
+     * @return string
+     */
+    public function get_standalone_description($full, $not, \core_availability\info $info) {
         return $this->get_either_description($not, true);
     }
 
@@ -93,14 +163,19 @@ class condition extends \core_availability\condition {
      *
      * @param bool $not True if NOT is in force
      * @param bool $standalone True to use standalone lang strings
+     * @return string
      */
     protected function get_either_description($not, $standalone) {
 
         $satag = $standalone ? 'short_' : 'full_';
-        return get_string($satag . 'days', 'availability_days',
+        $desc = get_string($satag . 'days', 'availability_days',
                 self::show_days($this->daysfromstart));
+        return $desc;
     }
 
+    /**
+     * @return int
+     */
     protected function get_debug_string() {
         return $this->daysfromstart;
     }
@@ -128,10 +203,19 @@ class condition extends \core_availability\condition {
     protected function show_days($days, $dateonly = false) {
         global $COURSE;
 
-        $time = $COURSE->startdate + ($days * DAYSECS);
+        $time = $this->get_reference_date() + ($days * DAYSECS);
         return '+'.$days.' ('.userdate($time, get_string($dateonly ? 'strftimedate' : 'strftimedatetime', 'langconfig')).')';
     }
 
+    /**
+     * What needs to be done after course restore.
+     *
+     * @param int $restoreid
+     * @param int $courseid
+     * @param \base_logger $logger
+     * @param string $name
+     * @return boolean
+     */
     public function update_after_restore($restoreid, $courseid, \base_logger $logger, $name) {
         return true;
     }
