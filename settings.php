@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Flatfile enrolments plugin settings and presets.
+ * Availability days plugin settings.
  *
- * @package    tool_sync
- * @copyright  2010 Valery Feemaux
+ * @package    availability_days
+ * @copyright  2010 Valery Fremaux (http://www.mylearningfactory.com)
  * @author     Valery Fremaux - based on code by Petr Skoda and others
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
