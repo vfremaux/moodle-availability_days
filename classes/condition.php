@@ -59,7 +59,8 @@ class condition extends \core_availability\condition {
      * Saves the condition attributes.
      */
     public function save() {
-        return (object)array('type' => 'days', 'd' => $this->daysfromstart);
+        $return = (object)array('type' => 'days', 'd' => $this->daysfromstart);
+        return $return;
     }
 
     /**
