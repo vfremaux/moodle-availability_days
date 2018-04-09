@@ -1,19 +1,21 @@
 YUI.add('moodle-availability_days-form', function (Y, NAME) {
 
-/**
+/*
  * JavaScript for form editing days conditions.
  *
  * @module moodle-availability_days-form
  */
+// jshint unused:false, undef:false
+
 M.availability_days = M.availability_days || {};
 
-/**
+/*
  * @class M.availability_days.form
  * @extends M.core_availability.plugin
  */
 M.availability_days.form = Y.Object(M.core_availability.plugin);
 
-/**
+/*
  * Groupings available for selection (alphabetical order).
  *
  * @property days
@@ -21,7 +23,7 @@ M.availability_days.form = Y.Object(M.core_availability.plugin);
  */
 M.availability_days.form.days = null;
 
-/**
+/*
  * Initialises this plugin.
  *
  * @method initInner
@@ -40,8 +42,9 @@ M.availability_days.form.getNode = function(json) {
         json.d = '';
     }
 
-    var html = '<span class="availability-group"><label>' + strings.conditiontitle + ' ' +
-            '<input type="text" size="4" name="field" value="'+json.d+'"></label></span>';
+    var html = '<span class="availability-group"><label>' + strings.conditiontitle;
+    html += ' <input type="text" size="4" name="field" value="' + json.d + '"></label></span>';
+
     var node = Y.Node.create('<span>' + html + '</span>');
 
     // Set initial values if specified.
@@ -70,4 +73,4 @@ M.availability_days.form.fillValue = function(value, node) {
     value.d = node.one('input[name=field]').get('value');
 };
 
-}, '@VERSION@', {"requires": ["base", "node", "event", "moodle-core_availability-form"]});
+}, '@VERSION@', {"requires": ["base", "node", "event", "io", "moodle-core_availability-form"]});
