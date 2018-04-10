@@ -59,8 +59,7 @@ class condition extends \core_availability\condition {
      * Saves the condition attributes.
      */
     public function save() {
-        $return = (object)array('type' => 'days', 'd' => $this->daysfromstart);
-        return $return;
+        return (object)array('type' => 'days', 'd' => $this->daysfromstart);
     }
 
     /**
@@ -104,7 +103,7 @@ class condition extends \core_availability\condition {
 
         $config = get_config('availability_days');
 
-        if (@$config->referencedate == 0) {
+        if (empty($config->referencedate) || $config->referencedate == 'coursestartdate') {
             // Calculate from course start date.
             $referencedate = $COURSE->startdate;
         } else {
@@ -215,7 +214,7 @@ class condition extends \core_availability\condition {
      * @param int $courseid
      * @param \base_logger $logger
      * @param string $name
-     * @return bool
+     * @return boolean
      */
     public function update_after_restore($restoreid, $courseid, \base_logger $logger, $name) {
         return true;
