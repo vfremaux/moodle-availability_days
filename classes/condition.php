@@ -103,7 +103,7 @@ class condition extends \core_availability\condition {
 
         $config = get_config('availability_days');
 
-        if (@$config->referencedate == 0) {
+        if (empty($config->referencedate) || $config->referencedate == 'coursestartdate') {
             // Calculate from course start date.
             $referencedate = $COURSE->startdate;
         } else {
