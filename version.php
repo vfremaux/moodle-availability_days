@@ -25,10 +25,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2016060100;
-$plugin->requires = 2017110800;
+$plugin->requires = 2018042700;
 $plugin->component = 'availability_days';
-$plugin->release = '3.4.0 (Build 2016060100)';
+$plugin->release = '3.5.0 (Build 2016060100)';
 $plugin->maturity = MATURITY_RC;
 
 // Non moodle attributes.
-$plugin->codeincrement = '3.4.0001';
+$plugin->codeincrement = '3.5.0001';
