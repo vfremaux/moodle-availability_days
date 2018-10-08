@@ -22,6 +22,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['privacy:metadata'] = "The Days Availability condition do not manipulate any data belonging to users";
+
 $string['conditiontitle'] = 'Days from start';
 $string['ajaxerror'] = 'Error contacting server to convert times';
 $string['configreferencedate'] = 'Reference date';
