@@ -71,17 +71,18 @@ class condition extends \core_availability\condition {
      * @return boolean
      */
     public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
-        return $this->is_available_for_all($not);
+        $course = $info->get_course();
+        return $this->is_available_for_all($not, $course);
     }
 
     /**
      * Checks the target is globally available
      * @param bool $not
+     * @param object $cousre The course object
      * @return boolean
      */
-    public function is_available_for_all($not = false) {
-
-        $referencedate = $this->get_reference_date();
+    public function is_available_for_all($not = false, $course = null) {
+        $referencedate = $this->get_reference_date($course);
 
         // Check condition.
         $now = self::get_time();
@@ -96,16 +97,21 @@ class condition extends \core_availability\condition {
 
     /**
      * Get the reference date to calculate shift from
+     * @param object $cousre The course object
      * @return integer date
      */
-    protected function get_reference_date() {
+    protected function get_reference_date($course = null) {
         global $COURSE, $USER, $DB;
+
+        if (!$course) {
+            $course = $COURSE;
+        }
 
         $config = get_config('availability_days');
 
         if (empty($config->referencedate) || $config->referencedate == 'coursestartdate') {
             // Calculate from course start date.
-            $referencedate = $COURSE->startdate;
+            $referencedate = $course->startdate;
         } else {
             // Calculate from lowest active enrol date of the user.
             $sql = '
@@ -124,11 +130,11 @@ class condition extends \core_availability\condition {
                 GROUP BY
                     ue.userid
             ';
-            if ($lowest = $DB->get_record_sql($sql, array($COURSE->id, $USER->id))) {
+            if ($lowest = $DB->get_record_sql($sql, array($course->id, $USER->id))) {
                 $referencedate = $lowest->minenroltime;
             } else {
                 // This should not happen but some role assigned users NON enrolled might fall into that case.
-                $referencedate = $COURSE->startdate;
+                $referencedate = $course->startdate;
             }
         }
 
@@ -201,8 +207,6 @@ class condition extends \core_availability\condition {
      * @return string Date
      */
     protected function show_days($days, $dateonly = false) {
-        global $COURSE;
-
         $time = $this->get_reference_date() + ($days * DAYSECS);
         return '+'.$days.' ('.userdate($time, get_string($dateonly ? 'strftimedate' : 'strftimedatetime', 'langconfig')).')';
     }
