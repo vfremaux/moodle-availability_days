@@ -18,13 +18,11 @@
  * Front-end class.
  *
  * @package availability_days
- * @copyright 2016 Valery Fremaux (valery.fremaux@gmail.com)
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2010 Valery Fremaux (http://www.mylearningfactory.com)
+ * @author     Valery Fremaux - based on code by Petr Skoda and others
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 namespace availability_days;
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Front-end class.
@@ -47,7 +45,10 @@ class frontend extends \core_availability\frontend {
      */
     const DATE_SELECTOR_SUPPORTED = false;
 
+    /**
+     * Get strings for Javascript.
+     */
     protected function get_javascript_strings() {
-        return array('short_days', 'conditiontitle');
+        return ['short_days', 'conditiontitle'];
     }
 }

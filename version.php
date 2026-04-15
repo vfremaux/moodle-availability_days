@@ -18,18 +18,20 @@
  * Version info.
  *
  * @package availability_days
- * @copyright 2016 Valery Fremaux (valery.fremaux@gmail.com)
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author      Valery Fremaux (valery.fremaux@gmail.com)
+ * @copyright   2016 Valery Fremaux (https://www.activeprolearn.com)
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2025022100;
+$plugin->version = 2026041300;
 $plugin->requires = 2022041900;
 $plugin->component = 'availability_days';
-$plugin->release = '4.5.0 (Build 2025022100)';
+$plugin->release = '5.1.0 (Build 2025022100)';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->supported = [401, 405];
+$plugin->supported = [500, 501];
 
 // Non moodle attributes.
-$plugin->codeincrement = '4.5.0001';
+$plugin->codeincrement = '5.1.0001';
+$plugin->privacy = 'public';

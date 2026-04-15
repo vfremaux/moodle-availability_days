@@ -22,10 +22,13 @@
  * @copyright   2016 Valery Fremaux (http://www.mylearingfactory.com)
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 namespace availability_days;
 
-defined('MOODLE_INTERNAL') || die();
+// phpcs:disable moodle.Commenting.ValidTags.Invalid
+
+use core_availability\condition as core_condition;
+use core_availability\info;
+use base_logger;
 
 /**
  * days from course start condition.
@@ -34,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2014 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class condition extends \core_availability\condition {
+class condition extends core_condition {
 
     /** @var int Time (Unix epoch seconds) for condition. */
     private $daysfromstart;
@@ -42,8 +45,8 @@ class condition extends \core_availability\condition {
     /**
      * Constructor.
      *
-     * @param \stdClass $structure Data structure from JSON decode
-     * @throws \coding_exception If invalid data structure.
+     * @param stdClass $structure Data structure from JSON decode
+     * @throws coding_exception If invalid data structure.
      */
     public function __construct($structure) {
 
@@ -59,7 +62,7 @@ class condition extends \core_availability\condition {
      * Saves the condition attributes.
      */
     public function save() {
-        return (object)array('type' => 'days', 'd' => $this->daysfromstart);
+        return (object)['type' => 'days', 'd' => $this->daysfromstart];
     }
 
     /**
@@ -69,8 +72,9 @@ class condition extends \core_availability\condition {
      * @param bool $grabthelot
      * @param int $userid
      * @return boolean
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function is_available($not, \core_availability\info $info, $grabthelot, $userid) {
+    public function is_available($not, info $info, $grabthelot, $userid) {
         return $this->is_available_for_all($not);
     }
 
@@ -78,6 +82,7 @@ class condition extends \core_availability\condition {
      * Checks the target is globally available
      * @param bool $not
      * @return boolean
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     public function is_available_for_all($not = false) {
 
@@ -85,7 +90,7 @@ class condition extends \core_availability\condition {
 
         // Check condition.
         $now = self::get_time();
-        $allow = $now >= ($this->daysfromstart * DAYSECS) + $referencedate;
+        $allow = $now >= ($this->daysfromstart * (int) DAYSECS) + $referencedate;
 
         if ($not) {
             $allow = !$allow;
@@ -124,7 +129,7 @@ class condition extends \core_availability\condition {
                 GROUP BY
                     ue.userid
             ';
-            if ($lowest = $DB->get_record_sql($sql, array($COURSE->id, $USER->id))) {
+            if ($lowest = $DB->get_record_sql($sql, [$COURSE->id, $USER->id])) {
                 $referencedate = $lowest->minenroltime;
             } else {
                 // This should not happen but some role assigned users NON enrolled might fall into that case.
@@ -139,10 +144,10 @@ class condition extends \core_availability\condition {
      * Gets a condition description for printing
      * @param bool $full
      * @param bool $not
-     * @param \core_availability\info $info
-     * @return boolean
+     * @param info $info
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function get_description($full, $not, \core_availability\info $info) {
+    public function get_description($full, $not, info $info) {
         return $this->get_either_description($not, false);
     }
 
@@ -150,10 +155,11 @@ class condition extends \core_availability\condition {
      * Gets a condition description for printing
      * @param bool $full
      * @param bool $not
-     * @param \core_availability\info $info
+     * @param info $info
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function get_standalone_description($full, $not, \core_availability\info $info) {
+    public function get_standalone_description($full, $not, info $info) {
         return $this->get_either_description($not, true);
     }
 
@@ -164,6 +170,7 @@ class condition extends \core_availability\condition {
      * @param bool $not True if NOT is in force
      * @param bool $standalone True to use standalone lang strings
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function get_either_description($not, $standalone) {
 
@@ -174,6 +181,7 @@ class condition extends \core_availability\condition {
     }
 
     /**
+     * Debug String.
      * @return int
      */
     protected function get_debug_string() {
@@ -197,13 +205,11 @@ class condition extends \core_availability\condition {
      *
      * @param int $days the relative days shift from course start
      * @param bool $dateonly If true, uses date only
-     * @param bool $until If true, and if using date only, shows previous date
      * @return string Date
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     protected function show_days($days, $dateonly = false) {
-        global $COURSE;
-
-        $time = $this->get_reference_date() + ($days * DAYSECS);
+        $time = $this->get_reference_date() + ($days * (int) DAYSECS);
         return '+'.$days.' ('.userdate($time, get_string($dateonly ? 'strftimedate' : 'strftimedatetime', 'langconfig')).')';
     }
 
@@ -212,11 +218,12 @@ class condition extends \core_availability\condition {
      *
      * @param int $restoreid
      * @param int $courseid
-     * @param \base_logger $logger
+     * @param base_logger $logger
      * @param string $name
      * @return boolean
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function update_after_restore($restoreid, $courseid, \base_logger $logger, $name) {
+    public function update_after_restore($restoreid, $courseid, base_logger $logger, $name) {
         return true;
     }
 }

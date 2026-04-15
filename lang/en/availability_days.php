@@ -19,19 +19,19 @@
  *
  * @package availability_days
  * @copyright 2016 Valery Fremaux
+ * @author Valery Fremaux (valery.fremaux@gmail.com)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['privacy:metadata'] = "The Days Availability condition do not manipulate any data belonging to users";
-
-$string['conditiontitle'] = 'Days from start';
 $string['ajaxerror'] = 'Error contacting server to convert times';
+$string['conditiontitle'] = 'Days from start';
 $string['configreferencedate'] = 'Reference date';
 $string['configreferencedate_desc'] = 'Choose the date from which the day shift will be calculated on';
+$string['coursestartdate'] = 'Course start date';
 $string['description'] = 'Prevent access until a specified day offset is reached relative to the course start date.';
-$string['pluginname'] = 'Restriction by days offset from start';
 $string['full_days'] = 'Available at day <strong>{$a}</strong> from course start date';
+$string['pluginname'] = 'Restriction by days offset from start';
+$string['privacy:metadata'] = "The Days Availability condition do not manipulate any data belonging to users";
 $string['short_days'] = 'Available from day <strong>{$a}</strong>';
 $string['title'] = 'Days';
-$string['coursestartdate'] = 'Course start date';
 $string['userenroldate'] = 'User enrolment date';

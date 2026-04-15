@@ -19,18 +19,18 @@
  *
  * @package availability_days
  * @copyright 2016 Valery Fremaux
- * @translation 2017 Guido Hornig
+ * @author 2017 Guido Hornig
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['conditiontitle'] = 'Tage ab Start';
 $string['ajaxerror'] = 'Zeitumwandlung nicht möglich wegen Serverfehler';
+$string['conditiontitle'] = 'Tage ab Start';
 $string['configreferencedate'] = 'Referenzdatum';
 $string['configreferencedate_desc'] = 'Wählen Sie das Referenzdatum, ab dem berechnet wird';
+$string['coursestartdate'] = 'Kursstart';
 $string['description'] = 'Zugang verhindern, bis eine Spanne von Tagen bezüglich des Referenzdatums verstrichen ist.';
-$string['pluginname'] = 'Voraussetzung Tage seit Kursstart';
 $string['full_days'] = 'Vergangene Tage seit Kursstart: <strong>{$a}</strong> oder mehr.';
+$string['pluginname'] = 'Voraussetzung Tage seit Kursstart';
 $string['short_days'] = 'Verfügbar ab <strong>{$a}</strong>';
 $string['title'] = 'Tage';
-$string['coursestartdate'] = 'Kursstart';
 $string['userenroldate'] = 'Einschreibung';
